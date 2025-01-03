@@ -3,9 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Personal Web Desktop</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/quiz.css">
+    <link rel="icon" href="./public/images/favicon.ico" type="image/x-icon">
 </head>
 <body>
-    
+
+    <div class="desktop">
+        <!-- Desktop Icons -->
+        <div class="icon" data-app="memory">
+            <img src="public/images/memorylogo.png" alt="Memory Game">
+            <span>Memory Game</span>
+        </div>
+        <div class="icon" data-app="chat">
+            <img src="public/images/chatlogo.png" alt="Chat">
+            <span>Chat</span>
+        </div>
+        <div class="icon" data-app="quiz">
+            <img src="public/images/quizlogo.png" alt="Quiz Game">
+            <span>Quiz Game</span>
+        </div>
+    </div>
+
+    <!-- TASKBAR -->
+    <div class="taskbar">
+        <img src="public/images/memorylogo.png" class="taskbar-icon" data-app="memory">
+        <img src="public/images/chatlogo.png" class="taskbar-icon" data-app="chat">
+        <img src="public/images/quizlogo.png" class="taskbar-icon" data-app="quiz">
+    </div>
+
+    <script type="module" src="./js/main.js"></script>
 </body>
 </html>

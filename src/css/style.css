@@ -1,0 +1,128 @@
+/* Genel sıfırlama */
+* {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Masaüstü Arka Planı */
+.desktop {
+    width: 100vw;
+    height: 100vh;
+    background: url('/public/images/wallpaper.jpg') no-repeat center center/cover;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Sol üst köşeden hizalama */
+}
+
+/* Masaüstü İkonları */
+.icon {
+    width: 60px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.2s ease-in-out;
+    margin-bottom: 20px; /* İkonlar arasında boşluk */
+    margin-top: 5px;
+}
+
+.icon img {
+    width: 50px;
+    height: 50px;
+    filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.4)); /* Windows 11 benzeri gölge */
+    border-radius: 10px;
+}
+
+.icon span {
+    display: block;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Hover Efekti - Windows 11 Benzeri */
+.icon:hover {
+    transform: scale(1.1);
+}
+
+/* Windows 11 Görev Çubuğu */
+.taskbar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 45px;
+    background: rgba(255, 255, 255, 0.6); /* Açık gri, hafif şeffaf */
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center; /* Uygulamaları ortada hizala */
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Taskbar İçindeki Uygulama Simgeleri */
+.taskbar .taskbar-icon {
+    width: 30px;
+    height: 30px;
+    margin: 0 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    border-radius: 10px;
+}
+
+.taskbar .taskbar-icon:hover {
+    transform: scale(1.1);
+}
+
+/* Pencere Stili */
+.window {
+    width: 400px;
+    height: 300px;
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Pencere Üst Barı */
+.window-header {
+    width: 100%;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10px;
+    cursor: grab;
+}
+
+.window-title {
+    color: white;
+    font-size: 16px;
+}
+
+.close-btn {
+    width: 20px;
+    height: 20px;
+    background: red;
+    color: white;
+    text-align: center;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Pencere İçeriği */
+.window-content {
+    flex-grow: 1;
+    overflow: auto;
+}
+
+/* Aktif pencerenin en üstte olması */
+.window:focus {
+    z-index: 9999;
+}

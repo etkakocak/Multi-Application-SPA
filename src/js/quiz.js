@@ -10,6 +10,7 @@ export function initQuiz(container) {
             <div id="quiz-container" style="display: none;">
                 <h3 id="question-text"></h3>
                 <div id="options-container"></div>
+                <button id="next-btn" style="display: none;">Next</button>
                 <p id="progress"></p>
             </div>
 
@@ -28,13 +29,20 @@ export function initQuiz(container) {
     let username = "";
 
     const quizData = [
-        { question: "5 + 3 = ?", options: ["6", "7", "8", "9"], answer: 2 },
-        { question: "12 + 7 = ?", options: ["19", "20", "21", "22"], answer: 0 },
-        { question: "9 + 6 = ?", options: ["13", "14", "15", "16"], answer: 2 },
-        { question: "3 + 4 = ?", options: ["5", "6", "7", "8"], answer: 2 },
-        { question: "8 + 2 = ?", options: ["9", "10", "11", "12"], answer: 1 },
-        { question: "7 + 5 = ?", options: ["11", "12", "13", "14"], answer: 1 },
-        { question: "4 + 9 = ?", options: ["12", "13", "14", "15"], answer: 1 }
+        { question: "What is the most important factor that determines the <<this>> binding in JavaScript?", 
+            options: ["Where the function is defined", "The scope of variables", "How the function is called", "The type of variable"], answer: 2 },
+        { question: "What is the key difference between <<map()>> and <<forEach()>> in JavaScript?", 
+            options: ["map() returns a new array, forEach() does not.", "forEach() is faster.", "map() only works with objects.", "forEach() does not create a loop."], answer: 0 },
+        { question: "What condition must be met for an NxN matrix to have an inverse?", 
+            options: ["All elements must be positive", "Its determinant must not be 0", "Rows and columns must be equal", "It must be symmetric"], answer: 1 },
+        { question: "Which country's football league does FC Midtjylland belong to?", 
+            options: ["Norway", "Sweden", "Denmark", "Germany"], answer: 2 },
+        { question: "Which is Sweden's top-tier football league?", 
+            options: ["Allsvenskan", "Eliteserien", "Superligan", "Premierligan"], answer: 0 },
+        { question: "Which of the following cities was not a Viking settlement?", 
+            options: ["Uppsala", "Sigtuna", "Västerås", "Eskilstuna"], answer: 3 },
+        { question: "Which of the following was one of the allies of the Swedish Empire in the Great Northern War?", 
+            options: ["Norway", "Crimean Khanate", "Saxony", "Duchy of Courland"], answer: 1 }
     ];
 
     document.getElementById("start-btn").addEventListener("click", () => {
@@ -54,32 +62,48 @@ export function initQuiz(container) {
 
         const optionsContainer = document.getElementById("options-container");
         optionsContainer.innerHTML = "";
+        document.getElementById("next-btn").style.display = "none"; 
+
         questionData.options.forEach((option, index) => {
             const btn = document.createElement("button");
             btn.classList.add("option-btn");
             btn.innerText = option;
-            btn.onclick = () => checkAnswer(index);
+            btn.onclick = () => checkAnswer(index, btn);
             optionsContainer.appendChild(btn);
         });
 
         document.getElementById("progress").innerText = `Question ${currentQuestionIndex + 1} / ${quizData.length}`;
     }
 
-    function checkAnswer(selectedIndex) {
-        userAnswers.push({ question: currentQuestionIndex + 1, correct: selectedIndex === quizData[currentQuestionIndex].answer });
+    function checkAnswer(selectedIndex, selectedButton) {
+        const questionData = quizData[currentQuestionIndex];
+        const allButtons = document.querySelectorAll(".option-btn");
 
-        if (selectedIndex === quizData[currentQuestionIndex].answer) {
+        allButtons.forEach((btn, index) => {
+            if (index === questionData.answer) {
+                btn.classList.add("correct"); 
+            }
+            if (index === selectedIndex && selectedIndex !== questionData.answer) {
+                btn.classList.add("wrong"); 
+            }
+            btn.disabled = true; 
+        });
+
+        if (selectedIndex === questionData.answer) {
             score++;
         }
 
-        currentQuestionIndex++;
+        document.getElementById("next-btn").style.display = "block"; 
+    }
 
+    document.getElementById("next-btn").addEventListener("click", () => {
+        currentQuestionIndex++;
         if (currentQuestionIndex < quizData.length) {
             loadQuestion();
         } else {
             showResults();
         }
-    }
+    });
 
     function showResults() {
         document.getElementById("quiz-container").style.display = "none";

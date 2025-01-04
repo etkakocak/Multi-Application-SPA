@@ -1,0 +1,29 @@
+(function(){const i=document.createElement("link").relList;if(i&&i.supports&&i.supports("modulepreload"))return;for(const t of document.querySelectorAll('link[rel="modulepreload"]'))s(t);new MutationObserver(t=>{for(const o of t)if(o.type==="childList")for(const e of o.addedNodes)e.tagName==="LINK"&&e.rel==="modulepreload"&&s(e)}).observe(document,{childList:!0,subtree:!0});function a(t){const o={};return t.integrity&&(o.integrity=t.integrity),t.referrerPolicy&&(o.referrerPolicy=t.referrerPolicy),t.crossOrigin==="use-credentials"?o.credentials="include":t.crossOrigin==="anonymous"?o.credentials="omit":o.credentials="same-origin",o}function s(t){if(t.ep)return;t.ep=!0;const o=a(t);fetch(t.href,o)}})();function p(c){c.innerHTML=`
+        <div id="quiz-app">
+            <div id="start-screen">
+                <h2>Welcome to the Quiz Game!</h2>
+                <input type="text" id="username-input" placeholder="Enter your nickname...">
+                <button id="start-btn">Start</button>
+            </div>
+
+            <div id="quiz-container" style="display: none;">
+                <h3 id="question-text"></h3>
+                <div id="options-container"></div>
+                <button id="next-btn" style="display: none;">Next</button>
+                <p id="progress"></p>
+            </div>
+
+            <div id="result-container" style="display: none;">
+                <h2>Quiz Result</h2>
+                <p id="final-score"></p>
+                <div id="answer-details"></div>
+                <button id="restart-btn">Restart</button>
+            </div>
+        </div>
+    `;let i=0,a=0,s="";const t=[{question:"What is the most important factor that determines the <<this>> binding in JavaScript?",options:["Where the function is defined","The scope of variables","How the function is called","The type of variable"],answer:2},{question:"What is the key difference between <<map()>> and <<forEach()>> in JavaScript?",options:["map() returns a new array, forEach() does not.","forEach() is faster.","map() only works with objects.","forEach() does not create a loop."],answer:0},{question:"What condition must be met for an NxN matrix to have an inverse?",options:["All elements must be positive","Its determinant must not be 0","Rows and columns must be equal","It must be symmetric"],answer:1},{question:"Which country's football league does FC Midtjylland belong to?",options:["Norway","Sweden","Denmark","Germany"],answer:2},{question:"Which is Sweden's top-tier football league?",options:["Allsvenskan","Eliteserien","Superligan","Premierligan"],answer:0},{question:"Which of the following cities was not a Viking settlement?",options:["Uppsala","Sigtuna","Västerås","Eskilstuna"],answer:3},{question:"Which of the following was one of the allies of the Swedish Empire in the Great Northern War?",options:["Norway","Crimean Khanate","Saxony","Duchy of Courland"],answer:1}];document.getElementById("start-btn").addEventListener("click",()=>{if(s=document.getElementById("username-input").value.trim(),s===""){alert("Enter your nickname!");return}document.getElementById("start-screen").style.display="none",document.getElementById("quiz-container").style.display="block",o()});function o(){const r=t[i];document.getElementById("question-text").innerText=r.question;const u=document.getElementById("options-container");u.innerHTML="",document.getElementById("next-btn").style.display="none",r.options.forEach((m,d)=>{const l=document.createElement("button");l.classList.add("option-btn"),l.innerText=m,l.onclick=()=>e(d),u.appendChild(l)}),document.getElementById("progress").innerText=`Question ${i+1} / ${t.length}`}function e(r,u){const m=t[i];document.querySelectorAll(".option-btn").forEach((l,f)=>{f===m.answer&&l.classList.add("correct"),f===r&&r!==m.answer&&l.classList.add("wrong"),l.disabled=!0}),r===m.answer&&a++,document.getElementById("next-btn").style.display="block"}document.getElementById("next-btn").addEventListener("click",()=>{i++,i<t.length?o():n()});function n(){document.getElementById("quiz-container").style.display="none",document.getElementById("result-container").style.display="block",document.getElementById("final-score").innerText=`${s}, you have ${a} correct and ${t.length-a} wrong answers!`}document.getElementById("restart-btn").addEventListener("click",()=>{i=0,a=0,s="",document.getElementById("result-container").style.display="none",document.getElementById("start-screen").style.display="block"})}document.addEventListener("DOMContentLoaded",()=>{let c=1;document.querySelectorAll(".icon, .taskbar-icon").forEach(e=>{e.addEventListener("dblclick",()=>{i(e.dataset.app)})});function i(e){if(document.querySelector(`.window[data-app="${e}"]`))return;const n=document.createElement("div");n.classList.add("window"),n.dataset.app=e,n.style.zIndex=c++,n.style.left="100px",n.style.top="100px",n.innerHTML=`
+            <div class="window-header">
+                <span class="window-title">${e.toUpperCase()}</span>
+                <div class="close-btn">X</div>
+            </div>
+            <div class="window-content" id="${e}-content"></div>
+        `,document.body.appendChild(n),a(n),n.querySelector(".close-btn").addEventListener("click",()=>{n.remove()}),n.addEventListener("mousedown",()=>{n.style.zIndex=c++}),s(e,n.querySelector(".window-content"))}function a(e){let n=!1,r,u;e.querySelector(".window-header").addEventListener("mousedown",d=>{n=!0,r=d.clientX-e.offsetLeft,u=d.clientY-e.offsetTop,e.style.zIndex=c++}),document.addEventListener("mousemove",d=>{n&&(e.style.left=`${d.clientX-r}px`,e.style.top=`${d.clientY-u}px`)}),document.addEventListener("mouseup",()=>{n=!1})}function s(e,n){e==="quiz"?p(n):e==="memory"?t(n):e==="chat"&&o(n)}function t(e){e.innerHTML='<div id="memory-app">Memory Game is coming soon...</div>'}function o(e){e.innerHTML='<div id="chat-app">Chat App is coming soon...</div>'}});

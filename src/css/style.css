@@ -1,35 +1,32 @@
-/* Genel sıfırlama */
 * {
     margin: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Masaüstü Arka Planı */
 .desktop {
     width: 100vw;
     height: 100vh;
     background: url('/public/images/wallpaper.jpg') no-repeat center center/cover;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Sol üst köşeden hizalama */
+    align-items: flex-start; 
 }
 
-/* Masaüstü İkonları */
 .icon {
     width: 60px;
     text-align: center;
     cursor: pointer;
     user-select: none;
     transition: transform 0.2s ease-in-out;
-    margin-bottom: 20px; /* İkonlar arasında boşluk */
+    margin-bottom: 20px; 
     margin-top: 5px;
 }
 
 .icon img {
     width: 50px;
     height: 50px;
-    filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.4)); /* Windows 11 benzeri gölge */
+    filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.4)); 
     border-radius: 10px;
 }
 
@@ -41,27 +38,24 @@
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-/* Hover Efekti - Windows 11 Benzeri */
 .icon:hover {
     transform: scale(1.1);
 }
 
-/* Windows 11 Görev Çubuğu */
 .taskbar {
     position: fixed;
     bottom: 0;
     width: 100%;
     height: 45px;
-    background: rgba(255, 255, 255, 0.6); /* Açık gri, hafif şeffaf */
+    background: rgba(255, 255, 255, 0.6); 
     backdrop-filter: blur(10px);
     display: flex;
-    justify-content: center; /* Uygulamaları ortada hizala */
+    justify-content: center; 
     align-items: center;
     padding: 0 20px;
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Taskbar İçindeki Uygulama Simgeleri */
 .taskbar .taskbar-icon {
     width: 30px;
     height: 30px;
@@ -75,10 +69,9 @@
     transform: scale(1.1);
 }
 
-/* Pencere Stili */
 .window {
-    width: 400px;
-    height: 300px;
+    width: 500px;
+    height: 400px;
     position: absolute;
     top: 100px;
     left: 100px;
@@ -89,7 +82,6 @@
     flex-direction: column;
 }
 
-/* Pencere Üst Barı */
 .window-header {
     width: 100%;
     height: 40px;
@@ -116,13 +108,11 @@
     cursor: pointer;
 }
 
-/* Pencere İçeriği */
 .window-content {
     flex-grow: 1;
     overflow: auto;
 }
 
-/* Aktif pencerenin en üstte olması */
 .window:focus {
     z-index: 9999;
 }

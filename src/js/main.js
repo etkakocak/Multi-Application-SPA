@@ -1,4 +1,5 @@
 import { initQuiz } from "./quiz.js";
+import { initMemoryGame } from "./memorygame.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     let zIndex = 1;
@@ -10,8 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function createWindow(appType) {
-        if (document.querySelector(`.window[data-app="${appType}"]`)) return;
-
         const windowDiv = document.createElement("div");
         windowDiv.classList.add("window");
         windowDiv.dataset.app = appType;
@@ -68,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (appType === "quiz") {
             initQuiz(container);;
         } else if (appType === "memory") {
-            loadMemoryApp(container);
+            initMemoryGame(container);
         } else if (appType === "chat") {
             loadChatApp(container);
         }

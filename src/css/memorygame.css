@@ -1,0 +1,57 @@
+#memory-game {
+    text-align: center;
+    padding: 10px;
+}
+
+#game-board {
+    display: grid;
+    gap: 10px;
+    margin: 20px auto; 
+    width: fit-content;
+    justify-content: center;
+    align-items: center;
+    place-self: center;
+}
+
+.card {
+    width: 70px;
+    height: 70px;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: lightgray;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+    outline: none;
+}
+
+.card:hover, .card:focus {
+    background: gray;
+}
+
+.hidden {
+    display: none;
+}
+
+.restart-btn, .start-game {
+    margin-top: 10px;
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    background: #0078D7;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.restart-btn:hover, .start-game:hover {
+    background: #005a9e;
+}
+
+.board-size {
+    margin: 10px;
+    padding: 5px;
+    font-size: 14px;
+}

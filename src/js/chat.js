@@ -1,5 +1,5 @@
-export function initChat(container) {
-    container.innerHTML = `
+export function initChat (container) {
+  container.innerHTML = `
         <div class="chat-app">
             <div id="chat-setup">
                 <div class="profile-pic-container">
@@ -25,129 +25,129 @@ export function initChat(container) {
                 </div>
             </div>
         </div>
-    `;
+    `
 
-    const usernameInput = container.querySelector("#chat-username-input");
-    const profilePicInput = container.querySelector("#profile-pic-upload");
-    const continueBtn = container.querySelector("#chat-continue-btn");
-    const setupScreen = container.querySelector("#chat-setup");
-    const chatScreen = container.querySelector("#chat-container");
-    const profilePic = container.querySelector("#profile-pic");
-    const chatUserPic = container.querySelector("#chat-user-pic");
-    const chatUsernameDisplay = container.querySelector("#chat-username");
-    const messageInput = container.querySelector("#chat-message-input");
-    const sendBtn = container.querySelector("#chat-send-btn");
-    const messagesContainer = container.querySelector("#messages-container");
+  const usernameInput = container.querySelector('#chat-username-input')
+  const profilePicInput = container.querySelector('#profile-pic-upload')
+  const continueBtn = container.querySelector('#chat-continue-btn')
+  const setupScreen = container.querySelector('#chat-setup')
+  const chatScreen = container.querySelector('#chat-container')
+  const profilePic = container.querySelector('#profile-pic')
+  const chatUserPic = container.querySelector('#chat-user-pic')
+  const chatUsernameDisplay = container.querySelector('#chat-username')
+  const messageInput = container.querySelector('#chat-message-input')
+  const sendBtn = container.querySelector('#chat-send-btn')
+  const messagesContainer = container.querySelector('#messages-container')
 
-    const serverURL = "wss://courselab.lnu.se/message-app/socket";
-    const apiKey = "eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd";
-    
-    let socket;
-    let username = localStorage.getItem("chat-username") || "";
-    let profilePicSrc = localStorage.getItem("chat-user-image") || "default-profile.png";
-    let messageHistory = JSON.parse(localStorage.getItem("chat-messages")) || [];
+  const serverURL = 'wss://courselab.lnu.se/message-app/socket'
+  const apiKey = 'eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd'
 
-    if (username) {
-        usernameInput.value = username;
-        profilePic.src = profilePicSrc;
-        chatUserPic.src = profilePicSrc;
-        setupScreen.style.display = "none";
-        chatScreen.style.display = "flex";
-        chatUsernameDisplay.innerText = username;
-        loadMessageHistory();
-        connectWebSocket();
+  let socket
+  let username = localStorage.getItem('chat-username') || ''
+  const profilePicSrc = localStorage.getItem('chat-user-image') || 'default-profile.png'
+  const messageHistory = JSON.parse(localStorage.getItem('chat-messages')) || []
+
+  if (username) {
+    usernameInput.value = username
+    profilePic.src = profilePicSrc
+    chatUserPic.src = profilePicSrc
+    setupScreen.style.display = 'none'
+    chatScreen.style.display = 'flex'
+    chatUsernameDisplay.innerText = username
+    loadMessageHistory()
+    connectWebSocket()
+  }
+
+  profilePicInput.addEventListener('change', (event) => {
+    const file = event.target.files[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        profilePic.src = e.target.result
+        chatUserPic.src = e.target.result
+        localStorage.setItem('chat-user-image', e.target.result)
+      }
+      reader.readAsDataURL(file)
+    }
+  })
+
+  continueBtn.addEventListener('click', () => {
+    username = usernameInput.value.trim()
+    if (!username) {
+      alert('Username is required!')
+      return
+    }
+    localStorage.setItem('chat-username', username)
+    setupScreen.style.display = 'none'
+    chatScreen.style.display = 'flex'
+    chatUsernameDisplay.innerText = username
+    connectWebSocket()
+  })
+
+  function connectWebSocket () {
+    if (socket && socket.readyState === WebSocket.OPEN) return
+    socket = new WebSocket(serverURL)
+
+    socket.addEventListener('open', () => {
+      displayMessage('The Server', 'You are connected!', true)
+    })
+
+    socket.addEventListener('message', (event) => {
+      const msg = JSON.parse(event.data)
+      if (msg.type !== 'heartbeat') {
+        displayMessage(msg.username, msg.data)
+      }
+    })
+
+    socket.addEventListener('close', () => {
+      setTimeout(connectWebSocket, 3000)
+    })
+  }
+
+  function displayMessage (user, message, isServerMessage = false) {
+    if (isServerMessage && messagesContainer.querySelector('.server-message')) return
+
+    const msgDiv = document.createElement('div')
+    msgDiv.classList.add('chat-message')
+    msgDiv.innerHTML = `<strong>${user}:</strong> ${message}`
+    messagesContainer.appendChild(msgDiv)
+
+    if (!isServerMessage) {
+      messageHistory.push({ user, message })
+      if (messageHistory.length > 20) {
+        messageHistory.shift()
+      }
+      localStorage.setItem('chat-messages', JSON.stringify(messageHistory))
     }
 
-    profilePicInput.addEventListener("change", (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                profilePic.src = e.target.result;
-                chatUserPic.src = e.target.result;
-                localStorage.setItem("chat-user-image", e.target.result);
-            };
-            reader.readAsDataURL(file);
-        }
-    });
+    messagesContainer.scrollTop = messagesContainer.scrollHeight
+  }
 
-    continueBtn.addEventListener("click", () => {
-        username = usernameInput.value.trim();
-        if (!username) {
-            alert("Username is required!");
-            return;
-        }
-        localStorage.setItem("chat-username", username);
-        setupScreen.style.display = "none";
-        chatScreen.style.display = "flex";
-        chatUsernameDisplay.innerText = username;
-        connectWebSocket();
-    });
+  function loadMessageHistory () {
+    messageHistory.forEach(({ user, message }) => displayMessage(user, message))
+  }
 
-    function connectWebSocket() {
-        if (socket && socket.readyState === WebSocket.OPEN) return;
-        socket = new WebSocket(serverURL);
+  function sendMessage () {
+    const message = messageInput.value.trim()
+    if (message === '' || !socket || socket.readyState !== WebSocket.OPEN) return
 
-        socket.addEventListener("open", () => {
-            displayMessage("The Server", "You are connected!", true);
-        });
-
-        socket.addEventListener("message", (event) => {
-            const msg = JSON.parse(event.data);
-            if (msg.type !== "heartbeat") {
-                displayMessage(msg.username, msg.data);
-            }
-        });
-
-        socket.addEventListener("close", () => {
-            setTimeout(connectWebSocket, 3000);
-        });
+    const msgObject = {
+      type: 'message',
+      data: message,
+      username,
+      channel: 'default',
+      key: apiKey
     }
 
-    function displayMessage(user, message, isServerMessage = false) {
-        if (isServerMessage && messagesContainer.querySelector(".server-message")) return;
+    socket.send(JSON.stringify(msgObject))
+    messageInput.value = ''
+  }
 
-        const msgDiv = document.createElement("div");
-        msgDiv.classList.add("chat-message");
-        msgDiv.innerHTML = `<strong>${user}:</strong> ${message}`;
-        messagesContainer.appendChild(msgDiv);
-
-        if (!isServerMessage) {
-            messageHistory.push({ user, message });
-            if (messageHistory.length > 20) {
-                messageHistory.shift();
-            }
-            localStorage.setItem("chat-messages", JSON.stringify(messageHistory));
-        }
-
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  sendBtn.addEventListener('click', sendMessage)
+  messageInput.addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      sendMessage()
     }
-
-    function loadMessageHistory() {
-        messageHistory.forEach(({ user, message }) => displayMessage(user, message));
-    }
-
-    function sendMessage() {
-        const message = messageInput.value.trim();
-        if (message === "" || !socket || socket.readyState !== WebSocket.OPEN) return;
-
-        const msgObject = {
-            type: "message",
-            data: message,
-            username: username,
-            channel: "default",
-            key: apiKey
-        };
-
-        socket.send(JSON.stringify(msgObject));
-        messageInput.value = "";
-    }
-
-    sendBtn.addEventListener("click", sendMessage);
-    messageInput.addEventListener("keypress", (event) => {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            sendMessage();
-        }
-    });
+  })
 }

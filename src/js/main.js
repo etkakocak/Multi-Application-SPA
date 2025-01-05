@@ -1,5 +1,6 @@
 import { initQuiz } from "./quiz.js";
 import { initMemoryGame } from "./memorygame.js";
+import { initChat } from "./chat.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     let zIndex = 1;
@@ -69,12 +70,8 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (appType === "memory") {
             initMemoryGame(container);
         } else if (appType === "chat") {
-            loadChatApp(container);
+            initChat(container);
         }
-    }
-
-    function loadMemoryApp(container) {
-        container.innerHTML = `<div id="memory-app">Memory Game is coming soon...</div>`;
     }
 
     function loadChatApp(container) {

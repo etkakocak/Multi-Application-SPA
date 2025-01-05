@@ -1,3 +1,7 @@
+/**
+ * Initializes the chat application inside the given container.
+ * @param {HTMLElement} container - The HTML container where the chat application will be loaded.
+ */
 export function initChat (container) {
   container.innerHTML = `
         <div class="chat-app">
@@ -84,6 +88,9 @@ export function initChat (container) {
     connectWebSocket()
   })
 
+  /**
+   * Establishes a WebSocket connection to the chat server.
+   */
   function connectWebSocket () {
     if (socket && socket.readyState === WebSocket.OPEN) return
     socket = new WebSocket(serverURL)
@@ -104,6 +111,12 @@ export function initChat (container) {
     })
   }
 
+  /**
+   * Displays a message in the chat window.
+   * @param {string} user - The username of the sender.
+   * @param {string} message - The message content.
+   * @param {boolean} [isServerMessage] - Whether the message is a server message.
+   */
   function displayMessage (user, message, isServerMessage = false) {
     if (isServerMessage && messagesContainer.querySelector('.server-message')) return
 
@@ -123,10 +136,16 @@ export function initChat (container) {
     messagesContainer.scrollTop = messagesContainer.scrollHeight
   }
 
+  /**
+   * Loads the stored message history from local storage and displays it in the chat window.
+   */
   function loadMessageHistory () {
     messageHistory.forEach(({ user, message }) => displayMessage(user, message))
   }
 
+  /**
+   * Sends a chat message to the WebSocket server.
+   */
   function sendMessage () {
     const message = messageInput.value.trim()
     if (message === '' || !socket || socket.readyState !== WebSocket.OPEN) return

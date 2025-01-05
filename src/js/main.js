@@ -11,6 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   })
 
+  /**
+   * Creates a new application window.
+   * @param {string} appType - The application to open.
+   */
   function createWindow (appType) {
     const windowDiv = document.createElement('div')
     windowDiv.classList.add('window')
@@ -41,6 +45,10 @@ document.addEventListener('DOMContentLoaded', () => {
     loadApp(appType, windowDiv.querySelector('.window-content'))
   }
 
+  /**
+   * Makes a window draggable within the application.
+   * @param {HTMLElement} element - The window element to be made draggable.
+   */
   function makeDraggable (element) {
     let isDragging = false
     let offsetX, offsetY
@@ -64,6 +72,11 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   }
 
+  /**
+   * Loads the application into a window.
+   * @param {string} appType - The type of application to load.
+   * @param {HTMLElement} container - The container element where the app will be initialized.
+   */
   function loadApp (appType, container) {
     if (appType === 'quiz') {
       initQuiz(container)

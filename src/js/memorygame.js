@@ -1,3 +1,7 @@
+/**
+ * Initializes the memory game inside the given container.
+ * @param {HTMLElement} container - The HTML container where the memory game will be loaded.
+ */
 export function initMemoryGame (container) {
   container.innerHTML = `
         <div class="memory-game">
@@ -38,6 +42,10 @@ export function initMemoryGame (container) {
     startMemoryGame(gameContainer)
   })
 
+  /**
+   * Starts a new memory game with the selected settings.
+   * @param {HTMLElement} gameContainer - The container holding the memory game elements.
+   */
   function startMemoryGame (gameContainer) {
     const boardSize = boardSizeSelect.value
     const emojiSet = emojiSetSelect.value
@@ -84,10 +92,19 @@ export function initMemoryGame (container) {
 
     restartButton.classList.remove('hidden')
 
+    /**
+     * Shuffles an array using the random sorting algorithm.
+     * @param {Array} array - The array of elements to shuffle.
+     * @returns {Array} - The shuffled array.
+     */
     function shuffle (array) {
       return array.sort(() => Math.random() - 0.5)
     }
 
+    /**
+     * Flips a selected card to reveal its symbol.
+     * @param {HTMLElement} card - The card element that was clicked.
+     */
     function flipCard (card) {
       if (selectedCards.length < 2 && !selectedCards.includes(card) && !matchedCards.includes(card)) {
         card.innerHTML = card.dataset.symbol
@@ -99,6 +116,9 @@ export function initMemoryGame (container) {
       }
     }
 
+    /**
+     * Checks if the selected cards match and updates the game state.
+     */
     function checkMatch () {
       const [card1, card2] = selectedCards
       attempts++

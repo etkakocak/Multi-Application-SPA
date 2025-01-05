@@ -1,3 +1,7 @@
+/**
+ * Initializes the quiz application inside the given container.
+ * @param {HTMLElement} container - The HTML container where the quiz app will be loaded.
+ */
 export function initQuiz (container) {
   container.innerHTML = `
         <div id="quiz-app">
@@ -77,6 +81,9 @@ export function initQuiz (container) {
     loadQuestion()
   })
 
+  /**
+   * Loads the current question and updates the UI.
+   */
   function loadQuestion () {
     const questionData = quizData[currentQuestionIndex]
     document.getElementById('question-text').innerText = questionData.question
@@ -96,6 +103,11 @@ export function initQuiz (container) {
     document.getElementById('progress').innerText = `Question ${currentQuestionIndex + 1} / ${quizData.length}`
   }
 
+  /**
+   * Checks the user's selected answer and updates the UI accordingly.
+   * @param {number} selectedIndex - The index of the selected answer.
+   * @param {HTMLElement} selectedButton - The button element of the selected answer.
+   */
   function checkAnswer (selectedIndex, selectedButton) {
     const questionData = quizData[currentQuestionIndex]
     const allButtons = document.querySelectorAll('.option-btn')
@@ -126,6 +138,9 @@ export function initQuiz (container) {
     }
   })
 
+  /**
+   * Displays the final quiz results.
+   */
   function showResults () {
     document.getElementById('quiz-container').style.display = 'none'
     document.getElementById('result-container').style.display = 'block'

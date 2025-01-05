@@ -1,16 +1,15 @@
-#memory-game {
+.memory-game {
     text-align: center;
     padding: 10px;
 }
 
-#game-board {
+.game-board {
     display: grid;
     gap: 10px;
-    margin: 20px auto; 
+    margin: 20px auto;
     width: fit-content;
     justify-content: center;
     align-items: center;
-    place-self: center;
 }
 
 .card {
@@ -50,7 +49,7 @@
     background: #005a9e;
 }
 
-.board-size {
+.board-size, .emoji-set {
     margin: 10px;
     padding: 5px;
     font-size: 14px;

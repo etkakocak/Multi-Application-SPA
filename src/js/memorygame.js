@@ -2,13 +2,23 @@ export function initMemoryGame(container) {
     container.innerHTML = `
         <div class="memory-game">
             <h2>Memory Game</h2>
+
             <label for="board-size">Select Board Size:</label>
             <select class="board-size">
                 <option value="4x4">4x4</option>
                 <option value="2x2">2x2</option>
                 <option value="2x4">2x4</option>
             </select>
+
+            <label for="emoji-set">Select Board Theme:</label>
+            <select class="emoji-set">
+                <option value="fruits">🍎 Fruits</option>
+                <option value="animals">🐶 Animals</option>
+                <option value="custom">😀 Faces</option>
+            </select>
+
             <button class="start-game">Start Game</button>
+
             <div class="game-board"></div>
             <p class="status"></p>
             <p class="attempts">Attempts: 0</p>
@@ -19,6 +29,7 @@ export function initMemoryGame(container) {
     const gameContainer = container.querySelector(".memory-game");
     const startButton = gameContainer.querySelector(".start-game");
     const boardSizeSelect = gameContainer.querySelector(".board-size");
+    const emojiSetSelect = gameContainer.querySelector(".emoji-set");
     const gameBoard = gameContainer.querySelector(".game-board");
     const attemptsDisplay = gameContainer.querySelector(".attempts");
     const restartButton = gameContainer.querySelector(".restart-btn");
@@ -28,7 +39,9 @@ export function initMemoryGame(container) {
     });
 
     function startMemoryGame(gameContainer) {
-        const boardSize = gameContainer.querySelector(".board-size").value;
+        const boardSize = boardSizeSelect.value;
+        const emojiSet = emojiSetSelect.value;
+
         let rows, cols;
         if (boardSize === "4x4") {
             rows = 4; cols = 4;
@@ -38,12 +51,16 @@ export function initMemoryGame(container) {
             rows = 2; cols = 4;
         }
 
-        let symbols = ["🍎", "🍌", "🍇", "🍉", "🥑", "🍒", "🍍", "🥥"];
-        symbols = symbols.slice(0, (rows * cols) / 2);
+        let emojiThemes = {
+            fruits: ["🍎", "🍌", "🍇", "🍉", "🥑", "🍒", "🍍", "🥥"],
+            animals: ["🐶", "🐱", "🐭", "🐹", "🐰", "🦊", "🐻", "🐼"],
+            custom: ["😀", "😂", "😎", "😍", "😡", "😭", "😱", "🤔"]
+        };
+
+        let symbols = emojiThemes[emojiSet].slice(0, (rows * cols) / 2);
         let cards = [...symbols, ...symbols];
         cards = shuffle(cards);
 
-        const gameBoard = gameContainer.querySelector(".game-board");
         gameBoard.innerHTML = "";
         gameBoard.style.display = "grid";
         gameBoard.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
@@ -85,7 +102,7 @@ export function initMemoryGame(container) {
         function checkMatch() {
             const [card1, card2] = selectedCards;
             attempts++;
-            gameContainer.querySelector(".attempts").innerText = `Attempts: ${attempts}`;
+            attemptsDisplay.innerText = `Attempts: ${attempts}`;
 
             if (card1.dataset.symbol === card2.dataset.symbol) {
                 matchedCards.push(card1, card2);

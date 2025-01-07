@@ -28,7 +28,7 @@ This is a ``multi-application SPA (Single Page Application)`` that provides thre
 3. Then, when you click on one of the links displayed in the terminal, it will open the website in your browser.  
 
 ### Linters
-* Run the linters by the command ``npm run lint`` to verify that the codes contain no errors.  
+* Run the linters by the command **npm run lint** to verify that the codes contain no errors.  
 
 The application follows modern coding standards with ESLint compliance.  
 I already ran the command and fixed all errors and warnings. But if you make some updates, run the command to see if any errors or warnings come up.
